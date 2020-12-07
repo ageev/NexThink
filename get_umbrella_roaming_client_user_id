@@ -1,0 +1,18 @@
+Add-Type -Path $env:NEXTHINK\RemoteActions\nxtremoteactions.dll
+
+$dns_data = Resolve-DnsName -Name debug.opendns.com -Type TXT -DnsOnly
+$search_string = "user id"
+$is_found = $false #no capital letters!
+$string_value = "not found"
+
+foreach ($str in $dns_data.Strings)
+{
+  if ($str -match $search_string)
+  {
+    $is_found = $true #no capital letters!
+    $string_value = $str
+  }
+}
+
+[Nxt]::WriteOutputString("Cisco_Umbrella_User_ID", $string_value)
+[Nxt]::WriteOutputBool("Cisco_Umbrella_User_ID_is_found", $is_found) 
